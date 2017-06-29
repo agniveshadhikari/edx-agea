@@ -389,8 +389,6 @@ class ExcelSheetAssessmentXBlock(XBlock):
         except SocketValueError:
             log.info("storage api upload failed:")
             log.info("invalid host")
-        log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")     
-        log.info(self)
         self.grade_this_guy()
         self.attempts += 1
         os.remove(IMAGEDIFF_ROOT + path) 
