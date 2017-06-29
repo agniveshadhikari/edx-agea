@@ -135,10 +135,12 @@ Course Authoring in edX Studio
 
    3. Add ``"agea"`` to module list
 
+      .. figure:: https://preview.ibb.co/iYxRCk/advanced_module_list.png
+        :alt: the Advanced Module List section in Advanced Settings
+
    4. Click save, and studio should save your changes
 
-      .. figure:: https://raw.githubusercontent.com/mitodl/edx-sga/screenshots/img/screenshot-studio-advanced-settings.png
-        :alt: the Advanced Module List section in Advanced Settings
+
 
 2. Create an AGEA XBlock
 
@@ -151,11 +153,16 @@ Course Authoring in edX Studio
 
    4. Click "Advanced" and choose "Excel Autograded Assignment"
 
-      .. figure:: https://raw.githubusercontent.com/mitodl/edx-sga/screenshots/img/screenshot-studio-new-unit.png
+      .. figure:: https://preview.ibb.co/iYxRCk/advanced_module_list.png
         :alt: buttons for problems types, including advanced types
+
+   .. figure:: https://preview.ibb.co/iYxRCk/advanced_module_list.png
+  :alt: buttons for problems types, including advanced types
 
 
 3. Settings
+
+   Click on the Edit button to set the question
 
    - Question Parameters:
 
@@ -180,6 +187,8 @@ Course Authoring in edX Studio
      - Maximum attempts permitted: This value corresponds to the maximum number of submission a student is allowed to make
      for this problem. Leave this value blank if you don't want to limit the number of submissions. Enter positive values
      only.
+
+
 
    - Question File Upload:
 
