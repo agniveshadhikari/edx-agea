@@ -147,7 +147,7 @@ Course Authoring in edX Studio
    2. Create a Section, Sub-section and Unit, if you haven't already
 
    3. In the "Add New Component" interface, you should now see an "Advanced" 
-   buttons
+      buttons
 
    4. Click "Advanced" and choose "Excel Autograded Assignment"
 
