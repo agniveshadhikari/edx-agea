@@ -1,0 +1,130 @@
+
+{% load i18n %}
+<div>
+   <h2><b>Instructions</b></h2><br>
+
+   <p>
+      The question file should have the marks corressponding to each of the cells that are to be answered by the students 
+      in angular brackets. The solution file should have the value of the answer corresponding to the cell as in the 
+      question file.
+   </p>
+
+    
+       
+   <p>
+       For further reference, you can download 
+       <a href="http://10.129.103.53:18010/asset-v1:IISC-Blr+ACC101+2017+type@asset+block@testque1.xlsx" target="_blank"><i>a sample question file here</i></a>
+        and 
+       <a href="http://10.129.103.53:18010/asset-v1:IISC-Blr+ACC101+2017+type@asset+block@testans1.xlsx"><i>a sample sulotion file here</i></a>.
+   </p>
+    
+   <br>
+
+</div>
+
+
+
+
+<div id="staff-graded-assignment-edit">
+  <h2><b>Question Parameters</b></h2><br>
+  <ul class="list-input settings-list">
+    {% for field, value, validator in fields %}
+    <li class="field comp-setting-entry metadata_entry">
+      <div class="wrapper-comp-setting">
+        <div word-wrap: break-word; width: 100px>
+            {{ field.display_name }} (<i>{{ field.help }}</i>)
+        <div>
+        <input class="input setting-input"type="text" 
+               id="{{ field.name }}_input" name="{{ field.name}}" 
+               value="{{ value }}" data-validator="{{ validator }}"
+               size="100" >
+      </div>
+     
+    </li>
+    <br>
+    {% endfor %}
+  </ul>
+</div>
+
+<script type="application/javascript">
+ $("ul.action-modes").html(' <li class="view-button sga_editor_tab">{% trans "Settings" %}</li>')
+</script>
+
+
+
+
+<br>
+
+
+
+ <div class="test1_block" data-state="{{ studio_state }}" data-max-size="{{ max_file_size }}"
+     data-staff="{{ is_course_staff }}">
+
+  <h2><b>Uploads</b></h2><br>
+
+  <script type="text/template" id="sga-tmpl">
+    
+    <h3> Question file: </h3>
+    <% if (uploaded) { %>
+      <p>You uploaded the question file  
+        <a href="<%= qdownloadUrl %>"><i><%= uploaded.filename %></i></a>
+      </p>
+    <% } else { %>
+      <p>No file has been uploaded.</p>
+    <% } %>
+
+
+    
+    
+      <% if (uploaded) { %>
+        You can upload a different file below
+      <% } else { %>
+        Upload your question file below
+      <% } %> 
+
+
+      <div class="upload">
+        <input class="fileupload" id="u1" type="file" accept=".xls,.xlsx" name="qassignment"/> 
+       </div>
+
+ 
+     
+      <br>
+     <h3>Solution file:</h3>
+     <% if(uploaded) {  %>
+     <% if (suploaded) { %>
+        <p>You uploaded the solution file  
+        <a href="<%= sdownloadUrl %>"><i><%= suploaded.filename %></i></a>
+     </p>
+      <% } else { %>
+      <p>No file has been uploaded.</p>
+    <% } %>
+
+      <% if (suploaded) { %>
+        You can upload a different file below
+      <% } else { %>
+        Upload your solution file below
+      <% } %> 
+   
+
+
+      <div class ="uploadsol"  id="solution" >
+        
+       
+      
+      <input class="fileuploadsol" id="u2"  type ="file" accept=".xlsx,.xlsx" name="sassignment"/>
+      <br>
+      </div>
+
+ <% } %>
+
+     
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+  </script>
+</div>
+
+  <div id="sga-content">
+  </div>
+

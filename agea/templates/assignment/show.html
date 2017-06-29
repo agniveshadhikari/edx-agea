@@ -1,0 +1,225 @@
+
+{% load i18n %}
+
+
+
+<div class="test1_block" data-state="{{ student_state }}" data-max-size="{{ max_file_size }}"
+     data-staff="{{ is_course_staff }}">
+  <script type="text/template" id="sga-tmpl">
+
+    <h1><%= display_name %></h1><br>
+
+    <div>
+       <h2>Instructions</h2>
+       <p>
+          In question file, each cell has it's corressponding marks indicated within anguled brackets. 
+          To answer a particular cell, overwrite the marks and fill in with just your answer. Only .xlsx files are accepted.
+       </p>
+       <p>
+          For further reference, you can download 
+          <a href="http://10.129.103.53:18010/asset-v1:IISC-Blr+ACC101+2017+type@asset+block@testque1.xlsx" target="_blank"><i>a sample question file here</i></a>
+           and 
+          <a href="http://10.129.103.53:18010/asset-v1:IISC-Blr+ACC101+2017+type@asset+block@testans1.xlsx"><i>a sample sulotion file here</i></a>.
+       </p>
+    </div>
+
+    <br>
+    <br>
+
+
+    <h2>Problem Statement</h2>
+    <p><%= question %></p><br>
+    
+
+    <% if (raw_question) { %>
+    <p><i><a href="<%= qdownloadUrl %>">Click here to download the answer template</i></a></p>
+
+    <% } %>
+
+    <br>
+    <br>
+
+    <h2>Your Submissions</h2>
+
+    <% if (uploaded) { %>
+      <p>You submitted the file <a href="<%= downloadUrl %>"><i><%= uploaded.filename %></i></a>
+      and been awarded a score of <%= score %> for this submission.</p>  
+    <% } else { %>
+      <p>You have not attempted this question.</p>
+    <% } %>
+   
+
+   
+    
+
+    <% if (max_attempts) { %>
+       <% if (max_attempts-attempts > 0) { %>
+          <p>You have <%= max_attempts-attempts %> of <%= max_attempts %> attempts remaining.</p>
+       <% } else { %>
+          <p>You have used all <%= max_attempts %> attempts, and have no more attempts remaining.</p> 
+       <% } %>
+    <% } else { %>
+       <p>This question can be attempted as many times as you want.</p>
+    <% } %>
+
+    <br>
+
+    <% if (!(max_attempts) || attempts < max_attempts) { %>
+      <p> To attempt the question, choose your answer file below </p>
+      <div class="upload">
+         <input class="fileupload" type="file" accept=".xlsx" name="assignment"/> 
+      </div>
+    <% } %>
+
+    <% if (error) { %>
+      <p class="error"><%= error %></p>
+    <% } %>
+  </script>
+</div>
+
+  <div id="sga-content">
+  </div>
+<!--
+  {% if is_course_staff %}
+  <script type="text/template" id="sga-grading-tmpl">
+    <table class="gridtable tablesorter" id="submissions">
+      <thead>
+      <tr>
+        <th class="header">Username <i class="icon fa fa-sort"/></th>
+        <th class="header">Name <i class="icon fa fa-sort"/></th>
+        <th class="header">Filename <i class="icon fa fa-sort"/></th>
+        <th class="header">Uploaded <i class="icon fa fa-sort"/></th>
+        <th class="header">Grade <i class="icon fa fa-sort"/></th>
+        <th class="header">Instructors comments <i class="icon fa fa-sort"/></th>
+        <th class="header">Annotated <i class="icon fa fa-sort"/></th>
+        <th class="header" colspan="2">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% for (var i = 0; i < assignments.length; i++) { %>
+      <%     var assignment = assignments[i]; %>
+        <tr id="row-<%= assignment.module_id %>">
+          <td><%= assignment.username %></td>
+          <td><%= assignment.fullname %></td>
+          <td>
+            <% if (assignment.filename) { %>
+              <a href="<%= downloadUrl %>?student_id=<%= assignment.student_id %>">
+                <%= assignment.filename %>
+              </a>
+            <% } %>
+          </td>
+          <td><%= assignment.timestamp %></td>
+          <td>
+            <% if (assignment.score !== null) { %>
+              <%= assignment.score %> /
+              <%= max_score %>
+              <% if (! assignment.approved) { %>
+                ({% trans "Awaiting instructor approval" %})
+              <% } %>
+            <% } %>
+          </td>
+          <td><%= assignment.comment %></td>
+          <td>
+            <% if (assignment.annotated) { %>
+              <a href="<%= annotatedUrl %>?module_id=<%= assignment.module_id %>">
+                <%= assignment.annotated %>
+              </a>
+            <% } %>
+          </td>
+          <td>
+            <% if (assignment.may_grade) { %>
+              <a class="enter-grade-button button" href="#enter-grade-{{ id }}">
+                <% if (assignment.needs_approval) { %>
+                 {% trans "Approve grade" %}
+                <% } else { %>
+                  {% trans "Enter grade" %}
+                <% } %>
+              </a>
+           <% } %>
+          </td>
+          <td>
+            <div class="upload">
+              <input class="fileupload" type="file" name="annotated"/>
+              <button>Upload annotated file</button>
+            </div>
+          </td>
+        </tr>
+      <% } %>
+      </tbody>
+    </table>
+  </script>
+-->
+<!--
+  <div aria-hidden="true" class="wrap-instructor-info">
+    <a class="instructor-info-action" id="grade-submissions-button"
+       href="#grade-{{ id }}">{% trans "Grade Submissions" %}</a>
+    <a class="instructor-info-action" id="staff-debug-info-button"
+       href="#debug-{{ id }}">{% trans "Staff Debug Info" %}</a>
+  </div>
+
+  <section aria-hidden="true" class="modal staff-modal" id="grade-{{ id }}" style="height: 75%" tabindex="-1">
+    <div class="inner-wrapper" style="color: black; overflow: auto;">
+      <header><h2><span class="display_name">{{ display_name }}</span> - {% trans " Assignment" %}</h2></header>
+      <br/>
+      <div id="grade-info" style="display: block;">
+        Loading...
+      </div>
+    </div>
+  </section>
+
+  <section aria-hidden="true" class="modal staff-modal"
+           style="height: 80%" id="debug-{{ id }}" tabindex="-1">
+    <div class="inner-wrapper" style="color: black">
+      <header><h2>{% trans "Staff Debug" %}</h2></header>
+      <br/>
+      <div class="staff_info" style="display: block; white-space: normal">
+        is_released = {{ is_released }}<br/>
+        location = {{ location }}<br/>
+        <br/>
+        <table summary="${_('Module Fields')}">
+          <tr><th>{% trans "Module Fields" %}</th></tr>
+          {% for name, field in fields %}
+          <tr>
+            <td>{{name}}</td>
+            <td>
+              <pre style="display:inline-block; margin: 0;">{{field}}</pre>
+            </td>
+          </tr>
+          {% endfor %}
+        </table><br/>
+        category = {{category}}
+      </div>
+    </div>
+  </section>
+
+  <section aria-hidden="true" class="modal grade-modal" id="enter-grade-{{ id }}" tabindex="-1">
+    <div class="inner-wrapper" style="color: black">
+      <header><h2>
+        {% trans "Enter Grade" %}
+      </h2></header>
+      <br/>
+      <div style="display: block;">
+        <form id="enter-grade-form">
+          <input id="module_id-input" type="hidden" name="module_id"/>
+          <input id="submission_id-input" type="hidden" name="submission_id"/>
+          <div>Grade for <span id="student-name"/></div>
+          <div>Grade: <input id="grade-input" name="grade"/>
+            <span class="error"></span></div>
+          <div>Comment: <textarea id="comment-input" name="comment" rows="4"></textarea></div>
+          <div>
+            <button type="submit">{% trans "Submit" %}</button>
+            <button type="button" id="enter-grade-cancel">
+              {% trans "Cancel" %}
+            </button>
+            <button type="button" id="remove-grade">
+              {% trans "Remove grade" %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+-->

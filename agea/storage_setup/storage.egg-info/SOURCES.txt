@@ -1,0 +1,6 @@
+README.rst
+setup.py
+storage.egg-info/PKG-INFO
+storage.egg-info/SOURCES.txt
+storage.egg-info/dependency_links.txt
+storage.egg-info/top_level.txt
