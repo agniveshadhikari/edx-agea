@@ -89,8 +89,8 @@ class ExcelSheetAssessmentXBlock(XBlock):
     )
 
     points = Integer(
-        display_name = "Maximum score",
-        help = "The minimum score to be obtained by the student to be given full credit.",
+        display_name = "Score to be graded out of",
+        help = "The minimum score to be obtained so as to be awarded full credit",
         default=100,
         scope=Scope.settings
     )
@@ -194,7 +194,6 @@ class ExcelSheetAssessmentXBlock(XBlock):
             )
         )
         fragment.add_javascript(_resource("static/js/src/agea.js"))
-        fragment.add_javascript(_resource("static/js/src/jquery.tablesorter.min.js"))
         fragment.initialize_js('ExcelSheetAssessmentXBlock')
         return fragment
  
@@ -305,8 +304,6 @@ class ExcelSheetAssessmentXBlock(XBlock):
         )
         fragment.add_css(_resource("static/css/agea.css"))
         fragment.add_javascript(_resource("static/js/src/studio.js"))
-
-        fragment.add_javascript(_resource("static/js/src/jquery.tablesorter.min.js"))
         fragment.initialize_js('ExcelSheetAssessmentXBlock')
         return fragment
 
@@ -326,10 +323,11 @@ class ExcelSheetAssessmentXBlock(XBlock):
         try:
             points = int(points)
         except ValueError:
-            raise JsonHandlerError(400, 'Points must be an integer')
+            raise JsonHandlerError(400, '"Score to be graded out of" must be an integer')
+
         # Check that we are positive
         if points < 0:
-            raise JsonHandlerError(400, 'Points must be a positive integer')
+            raise JsonHandlerError(400, '"Score to be graded out of" must be a positive integer')
         self.points = points
 
         # Validate weight before saving
@@ -346,7 +344,17 @@ class ExcelSheetAssessmentXBlock(XBlock):
                 raise JsonHandlerError(
                     400, 'Weight must be a positive decimal number'
                 )
-        self.weight = weight      
+        self.weight = weight 
+        submission = self.get_question()
+        if submission:
+            uploaded_submission = submission.get("question").get("filename", None)
+            if uploaded_submission:
+                question = self._question_storage_path(self.raw_question['sha1'], self.raw_question['filename'])
+                question = os.path.join(IMAGEDIFF_ROOT, question)
+                actual=total_marks(question)
+                if actual < points:
+                    raise JsonHandlerError(400, '"Score to be graded out of" should be less than equal to the maximum attainable score for the question paper you uploaded')
+     
         self.save()
         log.info(self)
         
