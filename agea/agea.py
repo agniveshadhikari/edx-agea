@@ -59,8 +59,8 @@ class ExcelSheetAssessmentXBlock(XBlock):
     STUDENT_FILEUPLOAD_MAX_SIZE = 4 * 1000 * 1000  # 4 MB
 
     display_name = String(
-        display_name = "Question title",
-        default='Your Quesion Title appears here', scope=Scope.settings,
+        display_name = 'Block Type',
+        default='Excel Sheet Assessment', scope=Scope.settings,
         help="This is the question title."
 
     )
@@ -71,7 +71,12 @@ class ExcelSheetAssessmentXBlock(XBlock):
         help="This is the question text that is shown to the student alongside the "
              "uploaded question file."
     )
-
+    
+    title = String(
+        display_name = "Question title",
+        default='Your Question Title appears here', scope=Scope.settings,
+        help="This is the question title that appears at the top of the problem"
+    )
 
     weight = Float(
         display_name="Problem Weight",
@@ -167,6 +172,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
             }
  
     def student_view(self, context=None):
+        # pylint: disable=no-member
         """
         Student view, renders the content of LMS
         """
@@ -188,6 +194,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
             )
         )
         fragment.add_javascript(_resource("static/js/src/agea.js"))
+        fragment.add_javascript(_resource("static/js/src/jquery.tablesorter.min.js"))
         fragment.initialize_js('ExcelSheetAssessmentXBlock')
         return fragment
  
@@ -209,7 +216,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
        
         
         return {
-            "display_name": self.display_name,
+            "display_name": self.title,
             "question":self.question,
             "uploaded": uploaded,
             "raw_answer":self.raw_answer,
@@ -246,7 +253,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
 
 
         return {
-            "display_name": self.display_name,
+            "display_name": self.title,
             "question":self.question,
             "uploaded": quploaded,
             "suploaded":suploaded,
@@ -269,7 +276,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         edit_fields = (
             (field, none_to_empty(getattr(self, field.name)), validator)
             for field, validator in (
-                (cls.display_name, 'string'),
+                (cls.title, 'string'),
                 (cls.question,'string'),
                 (cls.points, 'number'),
                 (cls.weight, 'number'),
@@ -298,6 +305,8 @@ class ExcelSheetAssessmentXBlock(XBlock):
         )
         fragment.add_css(_resource("static/css/agea.css"))
         fragment.add_javascript(_resource("static/js/src/studio.js"))
+
+        fragment.add_javascript(_resource("static/js/src/jquery.tablesorter.min.js"))
         fragment.initialize_js('ExcelSheetAssessmentXBlock')
         return fragment
 
@@ -306,7 +315,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Persist block data when updating settings in studio.
         """
-        self.display_name = data.get('display_name', self.display_name)
+        self.title = data.get('title', self.title)
         self.question = data.get('question', self.question)
         self.raw_question = data.get('raw_question',self.raw_question)
         self.raw_solution= data.get('raw_solution',self.raw_solution)
@@ -337,7 +346,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
                 raise JsonHandlerError(
                     400, 'Weight must be a positive decimal number'
                 )
-        #self.weight = weight      
+        self.weight = weight      
         self.save()
         log.info(self)
         
@@ -463,9 +472,14 @@ class ExcelSheetAssessmentXBlock(XBlock):
             "filename": upload.file.name,
             "mimetype": mimetypes.guess_type(upload.file.name)[0]
         }
+        # del xbl
+        #student_id = self.student_submission_id()
 
+        #add xbla update IITBsub
         self.raw_solution = solution
 
+        # IITBombayX zip changes
+        #submis = submissions_api.create_submission(student_id, answer)
         path = self._solution_storage_path(sha1, upload.file.name)
         log.info("Solution Upload Path" + path)
         
@@ -505,6 +519,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
 
     @XBlock.handler
     def download_assignment(self, request, suffix=''):
+        # pylint: disable=unused-argument
         """
         Downloads the student's answer file from storage api and then returns a response
         """
@@ -541,6 +556,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
 
     @XBlock.handler
     def download_question(self, request, suffix=''):
+        # pylint: disable=unused-argument
         """
         Downloads the question file from storage api and then returns a response
         """
@@ -586,6 +602,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
        
     @XBlock.handler
     def download_solution(self, request, suffix=''):
+        # pylint: disable=unused-argument
         """
         Downloads the solution file from storage api and then returns a response
         """
@@ -657,6 +674,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Returns the local path where the student's uploaded file is saved
         """
+        # pylint: disable=no-member
         path = (
             '{loc.org}/{loc.course}/{loc.block_type}/{loc.block_id}/'
             '{student_id}/{sha1}{ext}'.format(
@@ -672,6 +690,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Returns the local path of the question file uploaded by the instructor
         """
+        # pylint: disable=no-member
         path = (
             '{loc.org}/{loc.course}/{loc.block_type}/{loc.block_id}/'
             'static/question/{sha1}{ext}'.format(
@@ -686,6 +705,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Returns the local path of the solution file uploaded by the instructor
         """
+        # pylint: disable=no-member
         path = (
             '{loc.org}/{loc.course}/{loc.block_type}/{loc.block_id}/'
             'static/solution/{sha1}{ext}'.format(
