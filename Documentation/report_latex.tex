@@ -1,0 +1,441 @@
+%Copyright 2014 Jean-Philippe Eisenbarth
+%This program is free software: you can 
+%redistribute it and/or modify it under the terms of the GNU General Public 
+%License as published by the Free Software Foundation, either version 3 of the 
+%License, or (at your option) any later version.
+%This program is distributed in the hope that it will be useful,but WITHOUT ANY 
+%WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+%PARTICULAR PURPOSE. See the GNU General Public License for more details.
+%You should have received a copy of the GNU General Public License along with 
+%this program.  If not, see <http://www.gnu.org/licenses/>.
+
+%Based on the code of Yiannis Lazarides
+%http://tex.stackexchange.com/questions/42602/software-requirements-specification-with-latex
+%http://tex.stackexchange.com/users/963/yiannis-lazarides
+%Also based on the template of Karl E. Wiegers
+%http://www.se.rit.edu/~emad/teaching/slides/srs_template_sep14.pdf
+%http://karlwiegers.com
+\documentclass{scrreprt}
+\usepackage{listings}
+\usepackage{underscore}
+\usepackage[bookmarks=true]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\hypersetup{
+    bookmarks=false,    % show bookmarks bar?
+    pdftitle={Software Requirement Specification},    % title
+    pdfauthor={Jean-Philippe Eisenbarth},                     % author
+    pdfsubject={TeX and LaTeX},                        % subject of the document
+    pdfkeywords={TeX, LaTeX, graphics, images}, % list of keywords
+    colorlinks=true,       % false: boxed links; true: colored links
+    linkcolor=blue,       % color of internal links
+    citecolor=black,       % color of links to bibliography
+    filecolor=black,        % color of file links
+    urlcolor=purple,        % color of external links
+    linktoc=page            % only page is linked
+}%
+\def\myversion{1.0 }
+\date{}
+%\title{%
+
+%}
+\usepackage{hyperref}
+\begin{document}
+
+\begin{flushright}
+    \rule{14cm}{4pt}\vskip1cm
+    
+        \Huge{EXCEL SHEET ASSESSMENT XBLOCK}\\
+        
+        \vspace{1.0cm}
+        Enhancements to IIT BombayX Platform\\
+        \vspace{1.3cm}
+        Prepared by \\Shreya Saha\\Agnivesh Adhikari\\Shree Shubh\\
+        \vspace{1.3cm}
+       
+        
+        \today\\
+    \vspace{0.7cm}
+    Under the Guidance of\\
+{\Huge Prof. D. B.Phatak}\\
+{\normalsize Department of Computer Science and Engineering\\
+Indian Institute of Technology, Bombay\\ }
+\end{flushright}
+
+\tableofcontents
+
+\chapter{Acknowledgement}
+
+It is our privilege to express our sincerest regards and deep
+gratitude to all those who have helped us complete our project
+successfully. It is the result of collective efforts of coordinators,
+mentors and all the team members.\\
+We deeply express our sincere thanks to Prof. D.B. Phatak for
+selecting us and allowing us to work on the project “Enhancements to IIT BombayX Platform“.\\
+We thank Mr. Awinash Awate for his constant impetus and
+motivation that has helped us evolve better.\\
+We would like to express deep gratitude to our project mentor,
+Mr. Aparna Pansare, for her
+valuable input, guidance, encouragement, whole-hearted
+cooperation and constructive criticism throughout the duration
+of our project. Her consistent efforts and guidance have
+helped us develop a deep insight and understanding of various
+concepts.\\
+We would also like to thank Mr. Rahul Kharat and Mr. Bikas
+Chhatri for making our stay here comfortable and for all their
+administrative help.\\
+We would also like to thank Miss. Priyanka Garg and Mr. Anand
+Roy Choudhary for managing the uploading and downloading of files.\\
+We would also like to mention Prashant ---- and Pravin --- for their support and help 
+during the period of our internship.\\
+Lastly, we whole heartedly thank all our other colleagues and
+fellow interns for helping us with their critical advice and
+support.
+
+\chapter{Introduction}
+
+\section{Current state of online learning:}
+Massive Open Online Courses (MOOCs) is overpowered the area of online education everywhere.Professors from world class 
+institutes are making online content *(and assessments) available both in free and (increasingly) paid courses. Renowned
+institutions are accepting these credits as part of their curriculum.MOOC learning currently revolves around videos, text
+and images used by students to grab the subjective knowledge which is then assessed by subjective,objective or numerical 
+based tests.In the US, school education is undergoing a transformation. More and more schools are adopting hybrid models 
+of learning over the traditional classroom based (rote) approach.Assessment of learning is a weak area especially in MOOCs 
+where physical assessment is impossible. In the hybrid models as well, physical assessments (as against the e-Assessments) 
+bring in a subjective element. An e-Assessment has the risk of large scale 'copying' thus is not an appropriate parameter of
+judging the concepts of student.
+
+\section{edX Platform}
+
+edX is a massive open online course (MOOC) provider.It hosts online university level courses in a wide range of disciplines
+to a worldwide student body, including some courses at no charge. It also conducts research into learning based on how people 
+use its platform.EdX differs from other MOOC providers such as coursera or Udacity,in that it is a non profit organization and 
+runs on the open edX open-source software.\\
+The Massachusetts Institute of Technology and Harvard University created edX in May 2012.More than 70 schools,non profit 
+organizations, and corporations offer to plan to offer courses on the edX website.As of 29 December,2016, edX has around 10
+million students taking more than 1270 courses online.
+
+\section{XBlocks}
+
+XBlock is the SDK for the edX MOOC platform,written in python2 and announced and released publicly on March 14,2013.It aims 
+to enable the global software developement community to participate in the construction of edx educational platform and the
+next generation of online and blended courses.\\
+XBlock is a component architecture that enables developers to create independent course components, or XBlocks, that are able 
+to work seamlessly with other components in the construction and presentation of an online course. Course authors are able to 
+combine XBlocks from a variety of sources — from text and video to sophisticated wiki-based collaborative learning environments
+and online laboratories — to create rich engaging online courses.
+
+\section{Objective}
+The purpose of our project is to create an exam system in which the teacher uploads a question
+paper written in the excel file in a certain format and the student uploads his answer file in the same format.
+The answer file of the student is then automatically graded.The student can also see his progress in the progress bar.
+
+\section{Purpose}
+\begin{enumerate}
+\item To enhance the platform of IIT BombayX.
+\item To reduce the workload of the teacher when large number of students are present.
+\end{enumerate}
+\section{The future of learning in the world:}
+In the future with advanced technology, we can allow not only excel files but also text,image and other possible files.
+
+\section{Scope of Project}
+This system will be Excel Sheet Management System for a School/University. This
+system will be designed to maximize the examination productivity by providing tools to
+assist in automating the correction of answer sheets and publishing grade process, which
+would otherwise have to be performed manually.
+This system can be quite useful in accounting exams and also in other exams which can involve excel comparisons.
+
+\section{Glossary}
+    
+
+    
+	    Open edx::Open edx is the open source platform supporting the edx courses. \\        
+	    Student::Person who will give the exam and upload his answer sheet. \\        
+	    Database::Collection of all the information monitored by this system. \\        
+            Teacher::Person who is conducting the exam. \\        
+            Software Requirements Specification::describes the functions of a system and its constraints. \\        
+            User::Teacher or Student  \\       
+            OpenPyxl::It is a Python library for reading and writing Excel 2010 xlsx files.\\
+            XBlock::To create rich, engaging online courses, course authors must be able to combine components 
+            from a variety of sources. XBlock, which is edX’s component architecture, makes this possible. 
+            Courses are built hierarchically of pieces called XBlocks.
+
+
+
+\section{References}
+IEEE. IEEE Std 830-1998 IEEE Recommended Practice for Software Requirements
+Specifications. IEEE Computer Society, 1998.
+
+\chapter{Overview of the entire project}
+
+\section{Use case Diagram}
+\includegraphics[totalheight=10cm]{bruh}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+
+The system has two views-Teacher view and Student view.The teacher uploads an
+annotated question template which is then downloaded by the student.The student fills in
+the answers and uploads his answer template which is then automatically graded and can
+be viewed both by the teacher and the student.
+
+\section{Functional Requirements Specification-Student's View}
+
+\begin{enumerate}
+\item Teacher uploads annotated question file.
+\item Student downloads the file (from the student view).
+\item Student solves the problem, makes changes to the annotated file, and uploads the
+answer script (from the student view).
+\item Auto grader will run on the answer script. Grades will be computed.
+\item The student can now view his grades.
+\end{enumerate}
+
+\section{Functional Requirements Specification-Teacher’s View}
+
+\begin{enumerate}
+\item Teacher upload the annotated question template and answer sheet.
+\item Student download the annotated question paper.
+\item Student solves the problem, makes changes to the annotated file, and uploads the
+answer script (from the student view).
+\item Auto grader will run on the answer script. Grades will be computed.
+\item Both student and teacher can view the grade assigned to the student.
+\item Teacher has the option to download the answer script.
+\end{enumerate}
+
+\section{Non-functional Requirements}
+
+To use our system,the user must have edx platform installed in their local server.Also, the project 
+preferebly runs on web browsers like google chrome and Mozilla Firefox. 
+
+\chapter{Workflow of the entire system}
+
+\section{Logical Structure of data}
+\includegraphics[totalheight=10cm]{bruh2}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\section{Steps to be followed by the student}
+
+\begin{enumerate}
+\item Log into the student's view and enter your course.\\
+\includegraphics[totalheight=7cm]{ash}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\item Choose your answer file through the browse button.\\
+\includegraphics[totalheight=7cm]{mes}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}\\
+Now,upload it.
+
+\newpage 
+
+\item Your grade will be displayed along with the number of attempts you have left.\\
+\includegraphics[totalheight=8cm]{shr}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\item You can view your progress in the progress bar.
+\newline
+\includegraphics[totalheight=7cm]{progress}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+\end{enumerate}
+
+\newpage 
+
+\section{Steps to be followed by the teacher}
+
+\begin{enumerate}
+\item Create a course.Go o its advanced settings and add the following xblock 'agea' in its advanced module list.\\
+\includegraphics[totalheight=7cm]{1}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\item Now go back to your course and create sections,subsections and units as required.On selecting a particular unit,
+you need to choose your required XBlock.In our case,it is 'Excel Autograded Assignment'.\\
+\includegraphics[totalheight=3cm]{8}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\newpage 
+
+\item Now, the teacher is shown a default structure of the student view.Click on the edit button at the top right corener.\\
+\includegraphics[totalheight=10cm]{start}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\item Now,you get need to fill in all the input fields,ie the Question Title,Question Text,Maximum Score,
+Problem Weight and Maximum atempts.\\
+\includegraphics[totalheight=7cm]{teach3}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\newpage 
+
+\item Since you have not uploaded any question file yet,the following is displayed.\\
+\includegraphics[totalheight=5cm]{t}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\item Select a suitable question file using the browse button.Say,the name of your question file is annotated.xlsx.\\
+\includegraphics[totalheight=5cm]{bla}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\item Upload a suitable question file.You can also change it or download it if you want to.\\
+\includegraphics[totalheight=6cm]{te}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\newpage
+
+\item In a similar manner upload your solution file.\\
+\includegraphics[totalheight=6cm]{teacher2}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+
+\item Save and publish your changes.
+
+\item You can view the grades of the students in the grade book.\\
+\includegraphics[totalheight=6cm]{grades}
+\DeclareGraphicsExtensions{.pdf,.jpg,.png}
+\end{enumerate}
+
+\section{User Requirement}
+The Student and the Teacher are expected to be Internet literate and be able to use a
+search engine.
+
+\chapter{Limitations}
+\begin{enumerate}
+\item The grading is based on cell comparison only.
+
+\item All the files uploaded should be in xlsx format.
+
+\item Also,there will be error if we duplicate sections or subsections.
+
+\item There should not be any videos or pictures in the excel file.
+
+\item The author view is not working.That is why we have shown the instructions(originally 
+intented to be the content of the author view) is shown in the studio view.
+
+\end{enumerate}
+\chapter{Appendix}
+
+\section{Description of the various Fields}
+
+\subsection{display_name}
+\subsubsection{Purpose:}
+It displays the name of the course at the top of the student view and studio view.
+\subsubsection{Scope:}
+Scope.settings
+
+\subsection{question}
+\subsubsection{Purpose:}
+This is the problem statement given by the teacher.It is shown in student's view and it tells the student what to do.
+\subsubsection{Scope:}
+Scope.settings
+
+\subsection{weight}
+\subsubsection{Purpose:}
+It defines the number of points each problem is worth.If the value is not set, the problem is worth the sum of the
+        option point values.For example,if weight = 100, then the exam will be graded out of 100.
+\subsubsection{Scope:}
+Scope.settings
+
+\subsection{points}
+\subsubsection{Purpose:}
+It is the maximum score that can be obtained by a student on a particular assignment.
+\subsubsection{Scope:}
+Scope.settings
+
+\subsection{score}
+\subsubsection{Purpose:}
+It is the score given to the student.It is calculated by the autograder.
+\subsubsection{Scope:}
+Scope.user_state
+
+\subsection{attempts}
+\subsubsection{Purpose:}
+No. of times the student uploads the answer file.
+\subsubsection{Scope:}
+Scope.user_state
+
+\subsection{max_attempts}
+
+\subsubsection{Purpose:}
+No. of times the student is allowed to upload the answer file.If this field is not filled by the teacher,then the 
+student can submit the answer file infinite nunber of times. 
+\subsubsection{Scope:}
+Scope.settings
+
+
+\subsection{raw_answer}
+
+\subsubsection{Purpose:}
+It refers to the answer excel file uploaded by the student.
+\subsubsection{Scope:}
+Scope.user_state
+
+\subsection{raw_question}
+\subsubsection{Purpose:}
+It refers to the question excel file uploaded by the teacher.
+\subsubsection{Scope:}
+Scope.settings
+
+\subsection{raw_solution}
+\subsubsection{Purpose:}
+It refers to the solution excel file uploaded by the teacher.
+\subsubsection{Scope:}
+Scope.settings
+
+
+\section{Description of the Class Methods}
+
+
+\subsection{get_submission(self)}
+It returns the class field raw_answer.
+
+\subsection{get_question(self)}
+It returns the class field raw_question.
+
+\subsection{get_solution(self)}
+It returns the class field raw_solution.
+
+\subsection{student_view(self, context=None)}
+It renders the content of cms.It stores student_state,id and max_file_size in context and passes it to the html file.It integrates
+the html,js and css files in a variable fragment and returns it.
+
+\subsection{studio_view(self, context=None)}
+
+It stores display_name,question,points,weight and max_attempts in edit_fields.It stores edit_fields in context along with 
+studio_state,max_file_size and id and passes it to the html file.It integrates
+the html,js and css files in a variable fragment and returns it.
+
+\subsection{studio_state(self)}
+It returns the following to be used in studio_view::
+1.display_name\\
+2.self.question\\
+3.quploaded\\
+4.suploaded\\
+5.self.raw_question\\
+6.suploaded\\
+7.self.raw_solution\\
+8.self.weight
+
+\subsection{student_state(self)}
+It returns the following to be used in studio_view::
+1.display_name\\
+2.self.question\\
+3.uploaded\\
+4.raw_answer\\
+5.raw_question\\
+6.score\\
+7.weight\\
+8.attempts\\
+9.max_attempts
+
+
+\section{Description of the Miscellaneous Methods}
+
+
+\subsection{_get_sha1(file_descriptor)}
+It returns a hash value that is unique for every file.
+
+\subsection{_resource(path)}
+It is used to render the template. 
+
+\subsection{load_resource(resource_path)}
+It is used to load the template.
+
+\subsection{render_template(template_path, context=None)}
+It is used to render the template.
+
+\end{document}
