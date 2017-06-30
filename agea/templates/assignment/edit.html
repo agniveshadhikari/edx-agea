@@ -119,6 +119,15 @@
 
  <% } %>
 
+
+<% if(!uploaded) {  %>
+ <p><font color=red>WARNING::You should upload the question file and the solution file before publishing.</font><p> 
+<% } %>
+
+<% if(uploaded && !suploaded) { %>
+<p><font color=red>WARNING::You should upload the solution file before publishing.</font><p> 
+<% } %>
+
      
     <% if (error) { %>
       <p class="error"><%= error %></p>
