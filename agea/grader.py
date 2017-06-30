@@ -26,6 +26,17 @@ def grade(questionPath, answerPath, solutionPath):
                     score += int((annotated[coord].value)[1:-1])
 
     return score
+def total_marks(questionPath):
+    question = Workbook()
+    question = load_workbook(questionPath).active
+    score = 0
+    for row in question.iter_rows():
+        for cell in row:
+            coord = cell.coordinate
+            if str(question[coord].value)[0] == '<':
+                score += int((question[coord].value)[1:-1])
+
+    return score
 
 """
 def grade(questionPath, answerPath, solutionPath):
