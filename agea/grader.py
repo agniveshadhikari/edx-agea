@@ -1,4 +1,3 @@
-
 from openpyxl import *
 import logging
 
@@ -10,7 +9,6 @@ def grade(questionPath, answerPath, solutionPath):
     annotated = Workbook()
     sample = Workbook()
     answer = Workbook()
-    log.info("-------------")
     log.info(questionPath)
     annotated = load_workbook(questionPath).active
     sample = load_workbook(solutionPath).active
@@ -26,9 +24,4 @@ def grade(questionPath, answerPath, solutionPath):
                     score += int((annotated[coord].value)[1:-1])
 
     return score
-
-"""
-def grade(questionPath, answerPath, solutionPath):
-    return 69
-"""
 
