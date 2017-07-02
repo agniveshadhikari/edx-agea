@@ -6,6 +6,17 @@ on the excel files.
 from openpyxl import Workbook, load_workbook
 
 def grade(questionPath, answerPath, solutionPath):
+	"""
+	Takes three file paths as arguments:
+		The question file: contains the template and the marks
+			for each cell in angled brackets
+		The solution file: contains the correct solutions for each
+			cell. Other cells are ignored
+		The answer file: contains the actual file to be graded.
+			Ungraded cells are ignored.
+
+	Reuturns: The score received for the answer file
+	"""
     annotated = Workbook()
     sample = Workbook()
     answer = Workbook()
@@ -25,6 +36,10 @@ def grade(questionPath, answerPath, solutionPath):
     return score
     
 def total_marks(questionPath):
+	"""
+	Takes the file path of the question file as argument
+	Returns the maximum achievable score
+	"""
     question = Workbook()
     question = load_workbook(questionPath).active
     score = 0
