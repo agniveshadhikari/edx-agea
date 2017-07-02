@@ -1,15 +1,14 @@
-from openpyxl import *
-import logging
+"""
+This module contains the methods that do the actual processing
+on the excel files.
+"""
 
-log = logging.getLogger(__name__)
-
-
+from openpyxl import Workbook, load_workbook
 
 def grade(questionPath, answerPath, solutionPath):
     annotated = Workbook()
     sample = Workbook()
     answer = Workbook()
-    log.info(questionPath)
     annotated = load_workbook(questionPath).active
     sample = load_workbook(solutionPath).active
     answer = load_workbook(answerPath).active
@@ -24,6 +23,7 @@ def grade(questionPath, answerPath, solutionPath):
                     score += int((annotated[coord].value)[1:-1])
 
     return score
+    
 def total_marks(questionPath):
     question = Workbook()
     question = load_workbook(questionPath).active
