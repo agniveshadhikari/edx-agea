@@ -211,11 +211,34 @@ class ExcelSheetAssessmentXBlock(XBlock):
 
         
        
-        
+        submission = self.get_question()
+        if submission:
+            uploaded_submission = submission.get("question").get("filename", None)
+            if uploaded_submission:
+                quploaded = {"filename": submission['question']['filename']}
+            else:
+                quploaded = None
+        else:
+            quploaded = None
+
+        submission = self.get_solution()
+        if submission:
+            uploaded_submission = submission.get("solution").get("filename", None)
+            if uploaded_submission:
+                suploaded = {"filename": submission['solution']['filename']}
+            else:
+                suploaded = None
+        else:
+            suploaded = None
+
+
+
         return {
             "display_name": self.title,
             "question":self.question,
             "uploaded": uploaded,
+            "quploaded":quploaded,
+            "suploaded":suploaded,
             "raw_answer":self.raw_answer,
             "raw_question":self.raw_question,
             "score": self.score,
@@ -223,6 +246,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
             "attempts": self.attempts,
             "max_attempts": self.max_attempts,
         }
+
 
     def studio_state(self):
         """

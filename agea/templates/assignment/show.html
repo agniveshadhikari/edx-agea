@@ -12,7 +12,7 @@
     <div>
        <h2>Instructions</h2>
        <p>
-          In question file, each cell has it's corressponding marks indicated within anguled brackets. 
+          In question file, each cell has its corressponding marks indicated within anguled brackets. 
           To answer a particular cell, overwrite the marks and fill in with just your answer. Only .xlsx files are accepted.
        </p>
        <p>
@@ -28,19 +28,28 @@
 
 
     <h2>Problem Statement</h2>
-    <p><%= question %></p><br>
+<p><%= question %></p><br>
+
+<% if(quploaded) { %>
     
 
+    
+    
     <% if (raw_question) { %>
     <p><i><a href="<%= qdownloadUrl %>">Click here to download the answer template</i></a></p>
-
     <% } %>
+   
 
     <br>
     <br>
+    <% } else { %>
+     <p>Question not yet uploaded by the teacher</p>
+   <% } %>
+
+ 
 
     <h2>Your Submissions</h2>
-
+   <% if(quploaded &&suploaded) { %>
     <% if (uploaded) { %>
       <p>You submitted the file <a href="<%= downloadUrl %>"><i><%= uploaded.filename %></i></a>
       and been awarded a score of <%= score %> for this submission.</p>  
@@ -58,8 +67,9 @@
        <% } else { %>
           <p>You have used all <%= max_attempts %> attempts, and have no more attempts remaining.</p> 
        <% } %>
-    <% } else { %>
+   <% } else { %>
        <p>This question can be attempted as many times as you want.</p>
+  
     <% } %>
 
     <br>
@@ -70,6 +80,10 @@
          <input class="fileupload" type="file" accept=".xlsx" name="assignment"/> 
       </div>
     <% } %>
+   <% } else { %>
+   <p>You cannot upload your solution yet.Wait for a while </p>
+  <% } %>
+
 
     <% if (error) { %>
       <p class="error"><%= error %></p>
