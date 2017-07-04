@@ -51,8 +51,15 @@
     <h2>Your Submissions</h2>
    <% if(quploaded &&suploaded) { %>
     <% if (uploaded) { %>
+       <% if (score >=  0) { %>
+
       <p>You submitted the file <a href="<%= downloadUrl %>"><i><%= uploaded.filename %></i></a>
-      and been awarded a score of <%= score %> for this submission.</p>  
+      and been awarded a score of <%= score %> for this submission.</p>
+    
+     <% } else { %>
+        <p>Your file submission has been rejected because it did not adhere to the template specified. Please try again.</p>
+     <% } %>
+
     <% } else { %>
       <p>You have not attempted this question.</p>
     <% } %>

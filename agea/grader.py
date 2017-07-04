@@ -9,7 +9,15 @@ def grade(questionPath, answerPath, solutionPath):
     annotated = Workbook()
     sample = Workbook()
     answer = Workbook()
+    log.info("-------------")
     log.info(questionPath)
+    answer=load_workbook(answerPath)
+    numby=0
+    for sheet in answer.worksheets:
+        numby+=1
+    if numby != 1:
+        return -1
+
     annotated = load_workbook(questionPath).active
     sample = load_workbook(solutionPath).active
     answer = load_workbook(answerPath).active
@@ -24,6 +32,7 @@ def grade(questionPath, answerPath, solutionPath):
                     score += int((annotated[coord].value)[1:-1])
 
     return score
+
 def total_marks(questionPath):
     question = Workbook()
     question = load_workbook(questionPath).active
