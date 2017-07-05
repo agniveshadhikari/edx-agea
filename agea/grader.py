@@ -1,3 +1,4 @@
+
 from openpyxl import *
 import logging
 
@@ -23,7 +24,7 @@ def grade(questionPath, answerPath, solutionPath):
     answer = load_workbook(answerPath).active
 
     score = 0
-
+    
     for row in annotated.iter_rows():
         for cell in row:
             coord = cell.coordinate
@@ -32,7 +33,6 @@ def grade(questionPath, answerPath, solutionPath):
                     score += int((annotated[coord].value)[1:-1])
 
     return score
-
 def total_marks(questionPath):
     question = Workbook()
     question = load_workbook(questionPath).active
@@ -44,4 +44,9 @@ def total_marks(questionPath):
                 score += int((question[coord].value)[1:-1])
 
     return score
+
+"""
+def grade(questionPath, answerPath, solutionPath):
+    return 69
+"""
 

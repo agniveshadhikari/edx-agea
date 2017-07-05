@@ -12,7 +12,7 @@
     <div>
        <h2>Instructions</h2>
        <p>
-          In question file, each cell has its corressponding marks indicated within anguled brackets. 
+          In question file, each cell has it's corressponding marks indicated within anguled brackets. 
           To answer a particular cell, overwrite the marks and fill in with just your answer. Only .xlsx files are accepted.
        </p>
        <p>
@@ -26,6 +26,7 @@
     <br>
     <br>
 
+    
 
     <h2>Problem Statement</h2>
 <p><%= question %></p><br>
@@ -51,15 +52,19 @@
     <h2>Your Submissions</h2>
    <% if(quploaded &&suploaded) { %>
     <% if (uploaded) { %>
-       <% if (score >=  0) { %>
+       
+
+      
+      <% if (score >=  0) { %>
 
       <p>You submitted the file <a href="<%= downloadUrl %>"><i><%= uploaded.filename %></i></a>
       and been awarded a score of <%= score %> for this submission.</p>
     
      <% } else { %>
-        <p>Your file submission has been rejected because it did not adhere to the template specified. Please try again.</p>
+        <p>Your file submission has been rejected because it didn't adhere to the template specified. Please try again.</p>
      <% } %>
 
+  
     <% } else { %>
       <p>You have not attempted this question.</p>
     <% } %>
@@ -76,7 +81,6 @@
        <% } %>
    <% } else { %>
        <p>This question can be attempted as many times as you want.</p>
-  
     <% } %>
 
     <br>
@@ -88,9 +92,8 @@
       </div>
     <% } %>
    <% } else { %>
-   <p>You cannot upload your solution yet.Wait for a while </p>
+   <p>We are not accepting solutions yet. Please check back later.</p>
   <% } %>
-
 
     <% if (error) { %>
       <p class="error"><%= error %></p>
