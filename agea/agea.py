@@ -26,8 +26,9 @@ from xblock.exceptions import JsonHandlerError
 from xblock.fields import Dict, Scope, String, Float, Integer
 from xblock.fragment import Fragment
 
-from file_storage import save_file
-import storage
+from agea.file_storage import save_file
+from storage import storage
+from storage.user_exceptions import *
 
 from grader import grade, total_marks
 
