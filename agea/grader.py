@@ -1,22 +1,21 @@
+"""
+This module contains the methods that do the actual processing
+on the excel files.
+"""
 
-from openpyxl import *
-import logging
-
-log = logging.getLogger(__name__)
-
-
+from openpyxl import Workbook, load_workbook
 
 def grade(questionPath, answerPath, solutionPath):
     annotated = Workbook()
     sample = Workbook()
     answer = Workbook()
-    log.info("-------------")
-    log.info(questionPath)
+
     answer=load_workbook(answerPath)
-    numby=0
+    
+    count_worksheets=0
     for sheet in answer.worksheets:
-        numby+=1
-    if numby != 1:
+        count_worksheets+=1
+    if count_worksheets != 1:
         return -1
 
     annotated = load_workbook(questionPath).active
@@ -33,6 +32,7 @@ def grade(questionPath, answerPath, solutionPath):
                     score += int((annotated[coord].value)[1:-1])
 
     return score
+    
 def total_marks(questionPath):
     question = Workbook()
     question = load_workbook(questionPath).active
@@ -44,9 +44,4 @@ def total_marks(questionPath):
                 score += int((question[coord].value)[1:-1])
 
     return score
-
-"""
-def grade(questionPath, answerPath, solutionPath):
-    return 69
-"""
 
