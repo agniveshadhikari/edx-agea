@@ -26,24 +26,45 @@
     <br>
     <br>
 
-
-    <h2>Problem Statement</h2>
-    <p><%= question %></p><br>
     
 
+    <h2>Problem Statement</h2>
+<p><%= question %></p><br>
+
+<% if(quploaded) { %>
+    
+
+    
+    
     <% if (raw_question) { %>
     <p><i><a href="<%= qdownloadUrl %>">Click here to download the answer template</i></a></p>
-
     <% } %>
+   
 
     <br>
     <br>
+    <% } else { %>
+     <p>Question not yet uploaded by the teacher</p>
+   <% } %>
+
+ 
 
     <h2>Your Submissions</h2>
-
+   <% if(quploaded &&suploaded) { %>
     <% if (uploaded) { %>
+       
+
+      
+      <% if (score >=  0) { %>
+
       <p>You submitted the file <a href="<%= downloadUrl %>"><i><%= uploaded.filename %></i></a>
-      and been awarded a score of <%= score %> for this submission.</p>  
+      and been awarded a score of <%= score %> for this submission.</p>
+    
+     <% } else { %>
+        <p>Your file submission has been rejected because it didn't adhere to the template specified. Please try again.</p>
+     <% } %>
+
+  
     <% } else { %>
       <p>You have not attempted this question.</p>
     <% } %>
@@ -58,7 +79,7 @@
        <% } else { %>
           <p>You have used all <%= max_attempts %> attempts, and have no more attempts remaining.</p> 
        <% } %>
-    <% } else { %>
+   <% } else { %>
        <p>This question can be attempted as many times as you want.</p>
     <% } %>
 
@@ -70,6 +91,9 @@
          <input class="fileupload" type="file" accept=".xlsx" name="assignment"/> 
       </div>
     <% } %>
+   <% } else { %>
+   <p>We are not accepting solutions yet. Please check back later.</p>
+  <% } %>
 
     <% if (error) { %>
       <p class="error"><%= error %></p>

@@ -46,16 +46,7 @@
   </ul>
 </div>
 
-<script type="application/javascript">
- $("ul.action-modes").html(' <li class="view-button sga_editor_tab">{% trans "Settings" %}</li>')
-</script>
-
-
-
-
 <br>
-
-
 
  <div class="test1_block" data-state="{{ studio_state }}" data-max-size="{{ max_file_size }}"
      data-staff="{{ is_course_staff }}">
@@ -120,13 +111,13 @@
  <% } %>
 
 
-<% if(!uploaded) {  %>
- <p><font color=red>WARNING::You should upload the question file and the solution file before publishing.</font><p> 
-<% } %>
+  <% if(!uploaded) {  %>
+   <center><p><font color=red>Warning! You should upload the question file and the solution file before publishing.</font><p></center>
+  <% } %>
 
-<% if(uploaded && !suploaded) { %>
-<p><font color=red>WARNING::You should upload the solution file before publishing.</font><p> 
-<% } %>
+  <% if(uploaded && !suploaded) { %>
+   <center><p text-align:center><font color=red>Warning! You should upload the solution file before publishing.</font><p></center>
+  <% } %>
 
      
     <% if (error) { %>

@@ -176,6 +176,8 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Student view, renders the content of LMS
         """
+        log.info("Studnent view called")
+        log.info(self)
         context = {
             "student_state": json.dumps(self.student_state()),
             "id": self.location.name.replace('.', '_'),
@@ -209,13 +211,34 @@ class ExcelSheetAssessmentXBlock(XBlock):
         else:
             uploaded = None
 
-        
+        submission = self.get_question()
+        if submission:
+            uploaded_submission = submission.get("question").get("filename", None)
+            if uploaded_submission:
+                quploaded = {"filename": submission['question']['filename']}
+            else:
+                quploaded = None
+        else:
+            quploaded = None
+
+        submission = self.get_solution()
+        if submission:
+            uploaded_submission = submission.get("solution").get("filename", None)
+            if uploaded_submission:
+                suploaded = {"filename": submission['solution']['filename']}
+            else:
+                suploaded = None
+        else:
+            suploaded = None
+ 
        
         
         return {
             "display_name": self.title,
             "question":self.question,
             "uploaded": uploaded,
+            "quploaded":quploaded,
+            "suploaded":suploaded,
             "raw_answer":self.raw_answer,
             "raw_question":self.raw_question,
             "score": self.score,
@@ -264,6 +287,8 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Studio view, renders the content of CMS
         """
+        log.info("Studio view called")
+        log.info(self)
         cls = type(self)
 
         def none_to_empty(data):
@@ -352,6 +377,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
                     raise JsonHandlerError(400, '"Score to be graded out of" should be less than equal to the maximum attainable score for the question paper you uploaded')
      
         self.save()
+        log.info(self)
         
         #self.weight = data.get('weight', self.max_score())
 
@@ -360,8 +386,10 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Uploads the student file on local disk, then calls storage api, grades the file, and then deletes the file from local disk
         """
+        log.info("upload_assignment called")
         upload = request.params['assignment']
         sha1 = _get_sha1(upload.file)
+        log.info(type(upload.file))
         answer = {
             "sha1": sha1,
             "filename": upload.file.name,
@@ -371,13 +399,16 @@ class ExcelSheetAssessmentXBlock(XBlock):
         self.raw_answer = answer
         path = self._file_storage_path(sha1, upload.file.name)
         
+        log.info("upload1-----------------------------------------------")
         filepathexists=os.path.join(IMAGEDIFF_ROOT, path)
         file_exists=os.path.exists(filepathexists)
         if  not file_exists:
+            log.info("saving the file onto local store")
             save_file(path, File(upload.file))
             file_exists=True
         try:
             storage.store_data(str(self.course_id), str(self.xmodule_runtime.anonymous_student_id), str(self.location.block_id), file(IMAGEDIFF_ROOT + path))
+            log.info("upload through storage api successful")
         except PersonValueError:
             log.info("storage api upload failed:")
             log.info("peson argument cant be an empty string")
@@ -396,8 +427,11 @@ class ExcelSheetAssessmentXBlock(XBlock):
         except SocketValueError:
             log.info("storage api upload failed:")
             log.info("invalid host")
+        log.info("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")     
+        log.info(self)
         self.grade_this_guy()
-        self.attempts += 1
+        if self.score != -1:
+            self.attempts += 1
         os.remove(IMAGEDIFF_ROOT + path) 
         return Response(json_body=self.student_state())
 
@@ -406,6 +440,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Uploads the question file on local disk, then calls storage api
         """
+        log.info("upload_question called")
         qupload = request.params['qassignment'] 
         sha1 = _get_sha1(qupload.file)
         question = {
@@ -424,10 +459,12 @@ class ExcelSheetAssessmentXBlock(XBlock):
         if  not file_exists:
             save_file(path, File(qupload.file))
             file_exists=True
+            log.info("File uploaded locally")
 
 
         try:
             storage.store_data(str(self.course_id), "question", str(self.location.block_id), file(IMAGEDIFF_ROOT + path))
+            log.info("upload through storage api successful")
         except PersonValueError:
             log.info("storage api upload failed:")
             log.info("peson argument cant be an empty string")
@@ -458,7 +495,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Uploads the solution file on local disk, then calls storage api
         """
-        upload = request.params['sassignment']
+        upload = request.params['sassignment']  #TODO:change name
         sha1 = _get_sha1(upload.file)
         solution = {
             "sha1": sha1,
@@ -474,6 +511,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         # IITBombayX zip changes
         #submis = submissions_api.create_submission(student_id, answer)
         path = self._solution_storage_path(sha1, upload.file.name)
+        log.info("Solution Upload Path" + path)
         
         filepathexists=os.path.join(IMAGEDIFF_ROOT, path)
         file_exists=os.path.exists(filepathexists)
@@ -484,6 +522,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
 
         try:
             storage.store_data(str(self.course_id), "solution", str(self.location.block_id), file(IMAGEDIFF_ROOT + path))
+            log.info("upload through storage api successful")
         except PersonValueError:
             log.info("storage api upload failed:")
             log.info("peson argument cant be an empty string")
@@ -516,6 +555,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         try:
             file_descriptor = storage.access_data(str(self.course_id),str(self.xmodule_runtime.anonymous_student_id), str(self.location.block_id))
+            log.info("download through storage api successful")
         except PersonValueError:
             log.info("storage api download failed:")
             log.info("peson argument cant be an empty string")
@@ -550,12 +590,16 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Downloads the question file from storage api and then returns a response
         """
+        log.info("download_question called")
         try:
             file_descriptor = storage.access_data(str(self.course_id), "question", str(self.location.block_id))
+            log.info("file_descriptor is:")
+            log.info(file_descriptor)
             if not file_descriptor:
                 log.info("storage api download failed:")
                 log.info("file doesn't exist")
                 return
+            log.info("download through storage api successful")
             app_iter = iter(partial(file_descriptor.read, BLOCK_SIZE), '')            
             return Response(
                 app_iter=app_iter,
@@ -592,12 +636,16 @@ class ExcelSheetAssessmentXBlock(XBlock):
         """
         Downloads the solution file from storage api and then returns a response
         """
+        log.info("download_solution called")
         try:
             file_descriptor = storage.access_data(str(self.course_id), "solution", str(self.location.block_id))
+            log.info("file_descriptor is:")
+            log.info(file_descriptor)
             if not file_descriptor:
                 log.info("storage api download failed:")
                 log.info("file doesn't exist")
                 return
+            log.info("download through storage api successful")
             app_iter = iter(partial(file_descriptor.read, BLOCK_SIZE), '')
             return Response(
                 app_iter=app_iter,
@@ -633,6 +681,7 @@ class ExcelSheetAssessmentXBlock(XBlock):
         Generates the path for the three files to be compared, passes them to the grader function, popuates the 
         score field, runtime.publish-es the grades so that it shows up in the progress page
         """
+        log.info("Function has been called")
         answer = self._file_storage_path(self.raw_answer['sha1'], self.raw_answer['filename'])
         question = self._question_storage_path(self.raw_question['sha1'], self.raw_question['filename'])
         solution = self._solution_storage_path(self.raw_solution['sha1'], self.raw_solution['filename'])
@@ -643,10 +692,13 @@ class ExcelSheetAssessmentXBlock(XBlock):
         solution = os.path.join(IMAGEDIFF_ROOT, solution)
 
         self.score = grade(question, answer, solution)
-        
+        if self.score > self.points:
+            self.score = self.points
         self.points=float(self.max_score())
-        self.save()       
-        self.runtime.publish(self, 'grade',{ 'value': self.score, 'max_value':self.max_score(),})
+        self.save()
+        if self.score >= 0:       
+            self.runtime.publish(self, 'grade',{ 'value': self.score, 'max_value':self.max_score(),})
+            log.info("runtime.publish-ed")
         self.save()
         return Response(json_body=self.student_state())
 

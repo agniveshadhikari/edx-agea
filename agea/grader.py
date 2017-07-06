@@ -9,12 +9,21 @@ def grade(questionPath, answerPath, solutionPath):
     annotated = Workbook()
     sample = Workbook()
     answer = Workbook()
+
+    answer=load_workbook(answerPath)
+    
+    count_worksheets=0
+    for sheet in answer.worksheets:
+        count_worksheets+=1
+    if count_worksheets != 1:
+        return -1
+
     annotated = load_workbook(questionPath).active
     sample = load_workbook(solutionPath).active
     answer = load_workbook(answerPath).active
 
     score = 0
-
+    
     for row in annotated.iter_rows():
         for cell in row:
             coord = cell.coordinate
